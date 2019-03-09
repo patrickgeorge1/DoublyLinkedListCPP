@@ -60,8 +60,7 @@ public:
 			tail = added;
 
 		} else {
-			Node<var> *now = tail;
-			now->next = added;
+			tail->next = added;
 			added->next = nullptr;
 			added->prev = tail;
 			tail = added;
@@ -69,6 +68,59 @@ public:
 		}
 		size++;
 	}
+
+	void push_front(var data) {
+		Node<var> *added = new Node<var>(data);
+		if (this->size == 0) {
+			head = added;
+			tail = added;
+		} else {
+			head->prev = added;
+			added->next = head;
+			added->prev = nullptr;
+			head = added;
+		}
+		size++;
+	}
+
+	var pop_back() {
+		var x;
+		if (size == 1) {
+			x = tail->data;
+			delete tail;
+			delete head;
+			size--;
+		} else if (size > 1) {
+			x = tail->data;
+			Node<var> *removed = tail;
+			tail = tail->prev;
+			tail->next = nullptr;
+			delete removed;
+			size--;
+		}
+		return x;
+
+	}
+
+	var pop_front() {
+		var x;
+		if (size == 1) {
+			x = head->data;
+			delete tail;
+			delete head;
+			size--;
+		} else if (size > 1) {
+			x = head->data;
+			Node<var> *removed = head;
+			head = head->next;
+			head->prev = nullptr;
+			delete removed;
+			size--;
+		}
+		return x;
+	}
+
+
 
 
 	void print() {											// print head->tail
@@ -96,6 +148,9 @@ int main() {
 	x.push_back(1);
 	x.push_back(2);
 	x.push_back(4);
+	x.push_front(0);
+	x.pop_back();
+	x.pop_front();
 	x.print();
 
 	return 0;
